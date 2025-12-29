@@ -4,11 +4,12 @@
 #include <vector>
 
 struct range {
-    unsigned int start;
-    unsigned int end;
+    unsigned long start;
+    unsigned long end;
 };
 
 int main() {
+    //Storage variables
     std::ifstream inputFile("input.txt");
     std::string fileContents;
     std::vector<range> rangeArray;
@@ -24,17 +25,15 @@ int main() {
         std::cout << "Error: Unable to open the file." << std::endl;
     }
 
-    std::cout << fileContents << std::endl;
-
     //Read the data into an vector
     bool stopRangeArrayGen = false;
     do {
-        int hyphenLoc = fileContents.find('-');
-        int commaLoc = fileContents.find(',');
+        unsigned long hyphenLoc = fileContents.find('-');
+        unsigned long commaLoc = fileContents.find(',');
         range rangeToAdd;
 
-        rangeToAdd.start = std::stoi(fileContents.substr(0,hyphenLoc));
-        rangeToAdd.end = std::stoi(fileContents.substr(hyphenLoc + 1, commaLoc));
+        rangeToAdd.start = std::stoul(fileContents.substr(0,hyphenLoc));
+        rangeToAdd.end = std::stoul(fileContents.substr(hyphenLoc + 1, commaLoc));
         rangeArray.push_back(rangeToAdd);
 
         //Check if the end has been reached
@@ -45,9 +44,22 @@ int main() {
         }
     } while (stopRangeArrayGen == false);
 
-
-    for (range inspected :  rangeArray) {
-        std::cout << inspected.start << " " << inspected.end << std::endl;
+    //Go through the ranges and check for invalid IDs
+    unsigned long totalOfInvalid = 0;
+    for (int i = 0; i < rangeArray.size(); i++) {
+        //Step through the range
+        for (unsigned long inspectProdId = rangeArray[i].start; inspectProdId < (rangeArray[i].end + 1); inspectProdId++) {
+            //Investigate the product ID that is present in the range
+            std::string stringProdId = std::to_string(inspectProdId);
+            if (stringProdId.length() % 2 == 0) {
+                std::string firstHalf = stringProdId.substr(0,stringProdId.length()/2);
+                std::string secondHalf = stringProdId.substr((stringProdId.length()/2));
+                if (firstHalf == secondHalf) {
+                    totalOfInvalid += inspectProdId;
+                }
+            }
+        }
     }
 
+    std::cout << "Invalid number total is: " << totalOfInvalid << std::endl;
 }
