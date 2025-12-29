@@ -20,19 +20,26 @@ int main() {
                 safeDial += rotationNum;
                 while (safeDial > 99) {
                     safeDial -= 100;
+                    password++;
                 }
             } else if (rotateDirection == 'L') {
+                bool clicked = (safeDial == 0) ? false : true;
+                bool overflow = false;
                 safeDial -= rotationNum;
+
                 while (safeDial < 0) {
                     safeDial += 100;
+                    password++;
+                    overflow = true;
                 }
-            }
 
-            std::cout << safeDial << std::endl;
+                if (overflow == true && clicked == false) {
+                    password--;
+                }
 
-            // Get the password
-            if (safeDial == 0) {
-                password++;
+                if (safeDial == 0) {
+                    password++;
+                }
             }
         }
         inputFile.close();
