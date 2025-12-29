@@ -1,5 +1,7 @@
 # Ignore program executables
 program
+part1
+part2
 
 # Prerequisites
 *.d
