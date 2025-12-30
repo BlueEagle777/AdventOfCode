@@ -1,16 +1,29 @@
 .SILENT:
 
 _COMPILER=clang++
-_OUTPUTFILE='part'
 
-buildpart1:
-	$(_COMPILER) -o $(_OUTPUTFILE)1 part1.cpp
+part1: part1.cpp
+	echo "=============================="
+	echo "BUILDING PART 1"
+	echo "=============================="
+	$(_COMPILER) -o part1 part1.cpp
 
-buildpart2:
-	$(_COMPILER) -o $(_OUTPUTFILE)2 part2.cpp
+part2: part2.cpp
+	echo "=============================="
+	echo "BUILDING PART 2"
+	echo "=============================="
+	$(_COMPILER) -o part2 part2.cpp
 
-part1: buildpart1
-	./$(_OUTPUTFILE)1
+.PHONY: runpart1
+runpart1: part1
+	echo "=============================="
+	echo "RUNNING PART 1"
+	echo "=============================="
+	./part1
 
-part2: buildpart2
-	./$(_OUTPUTFILE)2
+.PHONY: runpart2
+runpart2: part2
+	echo "=============================="
+	echo "RUNNING PART 2"
+	echo "=============================="
+	./part2
